@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable{
 
     @FXML
-    private ListView<?> listClient;
+    private ListView<Client> listClient;
 
     @FXML
     private TextField noCivique;
