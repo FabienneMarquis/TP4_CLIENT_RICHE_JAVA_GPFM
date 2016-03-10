@@ -56,7 +56,7 @@ public class Controller implements Initializable, Observer {
 
     @FXML
     void getClients(ActionEvent event) {
-        Context.getInstance().getClients();
+        Context.getInstance().clientsSelect();
     }
 
     @FXML
@@ -73,6 +73,18 @@ public class Controller implements Initializable, Observer {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        String ip="";
+        TextInputDialog dialog =new TextInputDialog(ip);
+        dialog.setTitle("Configuration IP serveur");
+        dialog.setHeaderText("Aucune IP serveur configurer pour l'application");
+        dialog.setContentText("Veuillez entrer l'IP:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            ip = result.get();
+            System.out.println("IP: " + ip);
+            Context.getInstance().setIp(ip);
+            //arrrrrgggggg connecter au serveur blublublbu
+        }
         listClient.setItems(Context.getInstance().getClients());
         listClient.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         listClient.getSelectionModel().selectedItemProperty().addListener(

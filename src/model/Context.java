@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -14,7 +15,8 @@ import java.util.Observable;
  */
 public class Context extends Observable {
 
-    private Connection.ClientThread connection;
+    private String ip;
+    private ClientThread connection;
     private static Context context;
     private Client client;
     private ObservableList<Client> clients;
@@ -31,6 +33,10 @@ public class Context extends Observable {
             context = new Context();
         }
         return context;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public ObservableList<Client> getClients() {
@@ -62,7 +68,6 @@ public class Context extends Observable {
     }
 
  public void envoiRoute(String adress){
-     //route@update?adresse client 1; adresse client2... retourne route@update?adresse client 1; adresse client2...
      if(routeClient!=null) {
          String msg= "";
          for(Client client : routeClient){
@@ -77,7 +82,12 @@ public class Context extends Observable {
     }
 
     public void clientsSelect(){
-    connection.send("client@select");
+        connection.send("client@select");
+    }
+
+    public void connectionServeur(Socket socket){
+         connection= new ClientThread(socket);
+        connection.start();
     }
 
 }
