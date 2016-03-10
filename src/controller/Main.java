@@ -11,7 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("vue/sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("TP4 Réseaux- Fabienne - Gabriel");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

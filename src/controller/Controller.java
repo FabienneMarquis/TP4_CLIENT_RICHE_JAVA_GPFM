@@ -3,18 +3,12 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import model.Client;
 import model.Context;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Controller implements Initializable, Observer {
 
@@ -49,12 +43,20 @@ public class Controller implements Initializable, Observer {
 
     @FXML
     void cleanBD(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Suppression");
+        alert.setHeaderText("Suppression des routes");
+        alert.setContentText("Voulez-vous supprimer les routes enregistrées dans la base de données?");
+        Optional<ButtonType> result = alert.showAndWait();
 
+        if (result.get() == ButtonType.OK) {
+            Context.getInstance().deleteRoute();
+        }
     }
 
     @FXML
     void getClients(ActionEvent event) {
-
+        Context.getInstance().getClients();
     }
 
     @FXML

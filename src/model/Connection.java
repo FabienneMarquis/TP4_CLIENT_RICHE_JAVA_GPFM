@@ -1,5 +1,7 @@
 package model;
 
+import javafx.scene.control.Alert;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -52,14 +54,18 @@ public class Connection {
                             }
                             case "route": {
                                 switch (action) {
-                                    case "select": {
-
-
+                                    case "delete": {
+                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                        alert.setTitle("Supression");
+                                        alert.setContentText("Les routes ont été supprimer de la base de données");
+                                        alert.show();
                                         break;
                                     }
-
                                     case "update":{
-
+                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                        alert.setTitle("Update");
+                                        alert.setContentText("Les routes ont été mise à jour de la base de données");
+                                        alert.show();
                                         break;
                                     }
                                 }
