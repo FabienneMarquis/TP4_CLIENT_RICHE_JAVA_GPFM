@@ -5,12 +5,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import model.Client;
+import model.Context;
 
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable{
+public class Controller implements Initializable,Observer{
 
     @FXML
     private ListView<Client> listClient;
@@ -52,16 +57,27 @@ public class Controller implements Initializable{
     @FXML
     void getRoute(ActionEvent event) {
 
+        //Context.getInstance().envoiRoute();
     }
 
     @FXML
     void quit(ActionEvent event) {
 
+
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        listClient.setItems(Context.getInstance().getClients());
+        listClient.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listClient.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {}
+        );
+    }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        listClient.setItems(Context.getInstance().getClients());
     }
 }
 
