@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>tp4_client_riche_java_gpfm</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>TP4_CLIENT_RICHE_JAVA_GPFM</name>
+			<type>2</type>
+			<location>E:/AEC Programmeur Analyste/Session 4/Programmation reseaux/TP/TP4/TP4_CLIENT_RICHE_JAVA_GPFM/out/production/TP4_CLIENT_RICHE_JAVA_GPFM</location>
+		</link>
+		<link>
+			<name>src</name>
+			<type>2</type>
+			<location>E:/AEC Programmeur Analyste/Session 4/Programmation reseaux/TP/TP4/TP4_CLIENT_RICHE_JAVA_GPFM/src</location>
+		</link>
+	</linkedResources>
+</projectDescription>
