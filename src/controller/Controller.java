@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,13 +62,28 @@ public class Controller implements Initializable, Observer {
 
     @FXML
     void getRoute(ActionEvent event) {
-        String origin = noCivique.getText() + " " + rue.getText() + " " + ville.getText() + " " + codePostal.getText();
-        Context.getInstance().envoiRoute(origin);
+        if(noCivique.getText().isEmpty() || rue.getText().isEmpty() || ville.getText().isEmpty() || codePostal.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setContentText("Des sections de l'origine n'ont pas été complétées ");
+        }else Context.getInstance().envoiRoute(noCivique.getText() + " " + rue.getText() + " " + ville.getText() + " " + codePostal.getText());
+
+
     }
 
     @FXML
     void quit(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Avertissement");
+        alert.setHeaderText("Quitter?");
+        alert.setContentText("Voulez-vous quitter le programme ? ");
+        Optional<ButtonType> result = alert.showAndWait();
 
+        if (result.get() == ButtonType.OK) {
+          //  Context.getInstance().getConnection().close();
+            Platform.exit();
+            System.exit(0);
+        } else event.consume();
 
     }
 

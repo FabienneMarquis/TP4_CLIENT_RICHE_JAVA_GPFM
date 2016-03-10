@@ -35,6 +35,10 @@ public class Context extends Observable {
         return context;
     }
 
+    public ClientThread getConnection() {
+        return connection;
+    }
+
     public void setIp(String ip) {
         this.ip = ip;
     }

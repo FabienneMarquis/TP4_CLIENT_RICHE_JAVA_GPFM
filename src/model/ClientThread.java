@@ -91,7 +91,7 @@ public class ClientThread extends Thread {
         }
     }
 
-    private void close() {
+    public void close() {
 
         try {
             socket.close();
