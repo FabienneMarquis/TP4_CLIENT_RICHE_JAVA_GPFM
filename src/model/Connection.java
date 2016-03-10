@@ -42,16 +42,15 @@ public class Connection {
                                 switch (action) {
                                     case "select": {
                                         //client@select te retourne client@select?adresse du client 1;adresse du client 2;...
-                                       for (String args : arg.split(";"))
+                                       for (String args : arg.split(";")){
+                                           Context.getInstance().addClient(args);
+                                       }
                                         break;
                                     }
-
                                 }
-
                                 break;
                             }
                             case "route": {
-                                //route@delete retourne route@delete?vide cette cmd vide la route sur la bd
                                 switch (action) {
                                     case "select": {
 

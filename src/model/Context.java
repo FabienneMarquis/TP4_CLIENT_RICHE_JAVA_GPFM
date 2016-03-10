@@ -19,7 +19,7 @@ public class Context extends Observable {
     private Client client;
     private ObservableList<Client> clients;
     private List<Client> routeClient;
-    private Route route;
+
 
 
     private Context() {
@@ -57,22 +57,25 @@ public class Context extends Observable {
         this.client = client;
     }
 
-    public Route getRoute() {
-        return route;
-    }
-
-    public void setRoute(Route route) {
-        this.route = route;
-    }
-
     public void addClient(String string){
         clients.add(new Client(string));
     }
 
- public void envoiRoute(String msg){
+ public void envoiRoute(String adress){
      //route@update?adresse client 1; adresse client2... retourne route@update?adresse client 1; adresse client2...
-     connection.send("route@update?"+msg);
+     if(routeClient!=null) {
+         String msg= "";
+         for(Client client : routeClient){
+             msg+= client.getAddress()+";";
+         }
+         connection.send("route@update?"+adress+";"+msg);
+     }
  }
+
+    public void deleteRoute(){
+        connection.send("route@delete");
+    }
+
     public void clientsSelect(){
     connection.send("client@select");
     }

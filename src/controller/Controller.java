@@ -11,11 +11,12 @@ import model.Client;
 import model.Context;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable,Observer{
+public class Controller implements Initializable, Observer {
 
     @FXML
     private ListView<Client> listClient;
@@ -44,6 +45,8 @@ public class Controller implements Initializable,Observer{
     @FXML
     private Button quit;
 
+    List<Client> selected;
+
     @FXML
     void cleanBD(ActionEvent event) {
 
@@ -56,8 +59,8 @@ public class Controller implements Initializable,Observer{
 
     @FXML
     void getRoute(ActionEvent event) {
-
-        //Context.getInstance().envoiRoute();
+        String origin = noCivique.getText() + " " + rue.getText() + " " + ville.getText() + " " + codePostal.getText();
+        Context.getInstance().envoiRoute(origin);
     }
 
     @FXML
@@ -71,8 +74,12 @@ public class Controller implements Initializable,Observer{
         listClient.setItems(Context.getInstance().getClients());
         listClient.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         listClient.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {}
+                (observable, oldValue, newValue) -> {
+                    selected.add(listClient.getSelectionModel().getSelectedItem());
+                    Context.getInstance().setRouteClient(selected);
+                }
         );
+
     }
 
     @Override
