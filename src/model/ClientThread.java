@@ -45,7 +45,9 @@ public class ClientThread extends Thread {
                                 case "select": {
                                     //client@select te retourne client@select?adresse du client 1;adresse du client 2;...
                                     for (String args : arg.split(";")) {
-                                        Context.getInstance().addClient(args);
+                                        System.out.println(args.replace("�", "e"));
+                                       String a = args.replace("�", "e");
+                                        Context.getInstance().addClient(a);
                                     }
                                     break;
                                 }
@@ -55,17 +57,11 @@ public class ClientThread extends Thread {
                         case "route": {
                             switch (action) {
                                 case "delete": {
-                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                    alert.setTitle("Supression");
-                                    alert.setContentText("Les routes ont été supprimer de la base de données");
-                                    alert.show();
+                                    System.out.println("la route optimal a été effacé");
                                     break;
                                 }
                                 case "update": {
-                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                    alert.setTitle("Update");
-                                    alert.setContentText("Les routes ont été mise à jour de la base de données");
-                                    alert.show();
+                                    System.out.println("update de la base de donnée");
                                     break;
                                 }
                             }
@@ -109,4 +105,5 @@ public class ClientThread extends Thread {
             // e1.printStackTrace();
         }
     }
+
 }

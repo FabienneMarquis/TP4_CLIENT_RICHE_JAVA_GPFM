@@ -5,9 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import model.Client;
 import model.Context;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
@@ -38,9 +41,12 @@ public class Controller implements Initializable, Observer {
     private Button genererClient;
 
     @FXML
+    private Text routeOp;
+
+    @FXML
     private Button quit;
 
-    List<Client> selected;
+    Client selected[];
 
     @FXML
     void cleanBD(ActionEvent event) {
@@ -58,17 +64,28 @@ public class Controller implements Initializable, Observer {
     @FXML
     void getClients(ActionEvent event) {
         Context.getInstance().clientsSelect();
+        genererClient.setDisable(true);
     }
 
     @FXML
     void getRoute(ActionEvent event) {
+
         if(noCivique.getText().isEmpty() || rue.getText().isEmpty() || ville.getText().isEmpty() || codePostal.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
             alert.setContentText("Des sections de l'origine n'ont pas été complétées ");
-        }else Context.getInstance().envoiRoute(noCivique.getText() + " " + rue.getText() + " " + ville.getText() + " " + codePostal.getText());
-
-
+            alert.show();
+        }else {
+            //listClient.getSelectionModel().getSelectedItems().toArray(selected);
+            //selected= (Client[])listClient.getSelectionModel().getSelectedItems().toArray();
+            selected = new Client[listClient.getSelectionModel().getSelectedItems().size()];
+            for(int i = 0; i<listClient.getSelectionModel().getSelectedItems().size();i++){
+                selected[i] = listClient.getSelectionModel().getSelectedItems().get(i);
+            }
+            Context.getInstance().setRouteClient(selected);
+            Context.getInstance().setOrigin(new Client(noCivique.getText() + " " + rue.getText() + " " + ville.getText() + " " + codePostal.getText()));
+            Context.getInstance().envoiGoogleRouteOptimal();
+       }
     }
 
     @FXML
@@ -89,6 +106,7 @@ public class Controller implements Initializable, Observer {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Context.getInstance().addObserver(this);
         String ip="";
         TextInputDialog dialog =new TextInputDialog(ip);
         dialog.setTitle("Configuration IP serveur");
@@ -99,22 +117,29 @@ public class Controller implements Initializable, Observer {
             ip = result.get();
             System.out.println("IP: " + ip);
             Context.getInstance().setIp(ip);
-            //arrrrrgggggg connecter au serveur blublublbu
+            Socket socket = null;
+            try {
+                socket = new Socket(ip , 8888);
+                Context.getInstance().connectionServeur(socket);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setContentText("L'adresse ip est incorrect");
+                alert.show();
+            }
+
         }
         listClient.setItems(Context.getInstance().getClients());
         listClient.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        listClient.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    selected.add(listClient.getSelectionModel().getSelectedItem());
-                    Context.getInstance().setRouteClient(selected);
-                }
-        );
+
 
     }
 
     @Override
     public void update(Observable o, Object arg) {
         listClient.setItems(Context.getInstance().getClients());
+        routeOp.setText(Context.getInstance().getRouteOptimal().toString());
     }
 }
 
